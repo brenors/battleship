@@ -7,7 +7,7 @@
     <title>Batalha naval</title>
     <link rel="stylesheet" type="text/css" href="StyleSheet1.css">
 </head>
-<body>
+<body onload="ships=GenerateShips()">
     <table align="center" class="Board">
         <tr>
             <th></th>
@@ -94,15 +94,33 @@
         </tr>
     </table>
     <script>
+        function GenerateShips() {
+            const ships = []
+            for (let i = 0; i < 5; i++){
+                let row = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+                const alphabet = "ABCDEFGHIJ";
+                let colunm = alphabet[Math.floor(Math.random() * alphabet.length)];
+                let ship = row + colunm;
+                ships.push(ship);
+            }
+            console.log(ships)
+            return ships
+        }
         function Target(id) {
             let target = id
+            console.log(target)
+            console.log(ships);
             if (confirm('Are you sure you want to attack here ? ')) {
-                // revelaria se tem navio ou não
+                if (ships.includes(target)) {
+                    alert('You hit a ship');
+                } else {
+                    alert('nothing happened');
+                }
             } else {
-                // não faria nada espera clicar em outro
+                
             }
         }
-        function Fireconfirm() {
+        function Fireconfirm() { // not used in the momment
             if (confirm('Are you sure you want attack there ?')) {
                 // Save it!
                 console.log('You have fired your missile');
