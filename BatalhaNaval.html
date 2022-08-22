@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +7,7 @@
     <title>Batalha naval</title>
     <link rel="stylesheet" type="text/css" href="StyleSheet1.css">
 </head>
-<body onload="ships=GenerateShips()">
+<body onload="ships = GenerateShips(); tries = Initialtries()">
     <table align="center" class="Board">
         <tr>
             <th></th>
@@ -93,18 +93,37 @@
             </th>
         </tr>
     </table>
+    <center><button id="Tries">Remaining Tries: 1</button></center>
     <script>
         function GenerateShips() {
             const ships = []
-            for (let i = 0; i < 5; i++){
+            for (let i = 0; i < 5; i++) {
                 let row = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
                 const alphabet = "ABCDEFGHIJ";
                 let colunm = alphabet[Math.floor(Math.random() * alphabet.length)];
                 let ship = row + colunm;
-                ships.push(ship);
+                if (ships.includes(ship)) {
+                    let row = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+                    const alphabet = "ABCDEFGHIJ";
+                    let colunm = alphabet[Math.floor(Math.random() * alphabet.length)];
+                    let ship = row + colunm;
+                    ships.push(ship);
+                } else {
+                    ships.push(ship);
+                }
             }
             console.log(ships)
             return ships
+        }
+        function Initialtries() {
+            let remaningtries = 10
+            let correcttries = 0
+            const tries = []
+            tries.push(remaningtries);
+            tries.push(correcttries);
+            console.log(tries)
+            document.getElementById("Tries").innerText = 'Remaining Tries: ' + tries[0];
+            return tries
         }
         function Target(id) {
             let target = id
@@ -112,22 +131,31 @@
             console.log(ships);
             if (confirm('Are you sure you want to attack here ? ')) {
                 if (ships.includes(target)) {
-                    alert('You hit a ship');
+                    alert('You hit a ship!');
+                    document.getElementById(target).style.backgroundColor = 'green';
+                    document.getElementById(target).style.borderColor = 'green';
+                    Triescounter(1);
                 } else {
                     alert('nothing happened');
+                    document.getElementById(target).style.backgroundColor = 'red';
+                    document.getElementById(target).style.borderColor = 'red';
+                    Triescounter(2);
                 }
-            } else {
-                
+            }
+            if (tries[0] == 0) {
+                alert('You were unable to hit all ships, You Lost')
+            } else if (tries[1] == 5) {
+                alert('You were able to hit all ships, You Won!!')
             }
         }
-        function Fireconfirm() { // not used in the momment
-            if (confirm('Are you sure you want attack there ?')) {
-                // Save it!
-                console.log('You have fired your missile');
-            } else {
-                // Do nothing!
-                console.log('You have´t fired your missile');
+        function Triescounter(id) {
+            if (id == 1) {
+                 tries[1] += 1;
             }
+            if (id == 2) {
+                tries[0] -= 1;
+            }
+            document.getElementById("Tries").innerText = 'Remaining Tries: ' + tries[0];
         }
     </script>
 </body>
