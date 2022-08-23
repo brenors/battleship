@@ -122,7 +122,7 @@
             tries.push(remaningtries);
             tries.push(correcttries);
             console.log(tries)
-            document.getElementById("Tries").innerText = 'Remaining Tries: ' + tries[0];
+            document.getElementById("Tries").innerText = 'Remaining tries: ' + tries[0];
             return tries
         }
         function Target(id) {
@@ -136,26 +136,29 @@
                     document.getElementById(target).style.borderColor = 'green';
                     Triescounter(1);
                 } else {
-                    alert('nothing happened');
+                    alert('Nothing happened');
                     document.getElementById(target).style.backgroundColor = 'red';
                     document.getElementById(target).style.borderColor = 'red';
                     Triescounter(2);
                 }
             }
-            if (tries[0] == 0) {
+            if (tries[0] < 0) {
                 alert('You were unable to hit all ships, You Lost')
-            } else if (tries[1] == 5) {
+                window.location.reload()
+            }
+            else if (tries[1] == 5) {
                 alert('You were able to hit all ships, You Won!!')
+                window.location.reload()
             }
         }
         function Triescounter(id) {
             if (id == 1) {
-                 tries[1] += 1;
+                tries[1] += 1;
             }
             if (id == 2) {
                 tries[0] -= 1;
             }
-            document.getElementById("Tries").innerText = 'Remaining Tries: ' + tries[0];
+            document.getElementById("Tries").innerText = 'Remaining tries: ' + tries[0];
         }
     </script>
 </body>
